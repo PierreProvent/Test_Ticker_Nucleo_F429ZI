@@ -1,32 +1,17 @@
 #include "mbed.h"
 
-/*-----------------------------------------------------------------------
-Before to use this example, ensure that you an hyperterminal installed on your computer. 
-More info here: https://developer.mbed.org/handbook/Terminals
-The default serial comm port uses the SERIAL_TX and SERIAL_RX pins (see their definition in the PinNames.h file).
-The default serial configuration in this case is 9600 bauds, 8-bit data, no parity. 
-If you want to change the baudrate for example, you have to redeclare the
-serial object in your code:
+Ticker toggle_led_ticker;
 
-Serial pc(SERIAL_TX, SERIAL_RX);
+DigitalOut led1(LED1);
 
-Then, you can modify the baudrate and print like this:
+void toggle_led() {
+    led1 = !led1;
+}
 
-pc.baud(115200);
-pc.printf("Hello World !\n");
--------------------------------------------------------------------------*/
-
-DigitalOut led(LED1);
-
-int main()
-{
-    int i = 1;
-
-    printf("Hello World !\n");
-
-    while(1) {
-        wait(1); // 1 second
-        led = !led; // Toggle LED
-        printf("This program runs since %d seconds.\n", i++);
+int main() {
+    // Init the ticker with the address of the function (toggle_led) to be attached and the interval (100 ms)
+    toggle_led_ticker.attach(&toggle_led, 0.1);
+    while (true) {
+        // Do other things...
     }
 }
